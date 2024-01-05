@@ -1,7 +1,11 @@
 package in.podtest;
 
+import in.podtest.pom.HomePOM;
+import in.podtest.pom.ItemPOM;
+import in.podtest.pom.LoginPOM;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -10,32 +14,26 @@ import java.net.URL;
 
 public class TTTBootcamp {
 
-    static ChromeOptions chromeOptions;
-    static WebDriver wd;
-
-    public static void main(String[] args) throws MalformedURLException {
+    public static void main(String[] args) throws MalformedURLException, InterruptedException {
+         ChromeOptions chromeOptions;
+         WebDriver wd;
 
         chromeOptions = new ChromeOptions();
-        wd = new RemoteWebDriver( new URL("http://localhost:4444/"), chromeOptions);
+        //wd = new RemoteWebDriver( new URL("http://localhost:4444/"), chromeOptions);
+        wd = new ChromeDriver();
+        LoginPOM login = new LoginPOM(wd);
+        HomePOM home = new HomePOM(wd);
+        ItemPOM item = new ItemPOM(wd);
 
-        //Login
-        wd.get("https://demo.evershop.io/account/login");
-        wd.findElement(By.name("email")).sendKeys("akhiljda@gmail.com");
-        wd.findElement(By.name("password")).sendKeys("Password");
-        wd.findElement(By.xpath("//button[@type='submit']")).click();
+        login.get().fillCredentials("akhiljda@gmail.com", "Password").clickLogin(); //homepage
 
-        //Home Page:
-        wd.findElement(By.xpath("//div[@class='listing-tem']//a/span[text()='^^']")).click();
+        home.clickItem("Nike air zoom pegasus 35"); //itemPage
 
-        //Item Page:
-        wd.findElement(By.xpath("//input[@name='qty']")).clear();
-        wd.findElement(By.xpath("//input[@name='qty']")).sendKeys("2");
-            //size
-            wd.findElement(By.xpath( "(//ul[contains(@class, 'variant-option-list')])[1]/li/a[text()='^^']")).click();
+        item.fillQuantity("2").selectSize("L").selectColor("Green");
 
-            //color:
-            wd.findElement(By.xpath( "(//ul[contains(@class, 'variant-option-list')])[2]/li/a[text()='^^']")).click();
+        Thread.sleep(4000);
 
+        item.clickAddToCart();
 
 
 
