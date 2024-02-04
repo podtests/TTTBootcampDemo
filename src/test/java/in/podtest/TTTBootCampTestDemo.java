@@ -70,6 +70,8 @@ public class TTTBootCampTestDemo {
 
         item.fillQuantity("2").selectSize("L").selectColor("Green");
 
+        System.out.println("Selected the item");
+
         Thread.sleep(4000);
 
         item.clickAddToCart();
