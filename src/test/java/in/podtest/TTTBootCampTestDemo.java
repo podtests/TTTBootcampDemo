@@ -70,7 +70,9 @@ public class TTTBootCampTestDemo {
 
         item.fillQuantity("2").selectSize("L").selectColor("Green");
 
-        System.out.println("Selected the item");
+        String currenturl = wd.getCurrentUrl();
+        
+        System.out.println("URL is"+currenturl);
 
         Thread.sleep(4000);
 
